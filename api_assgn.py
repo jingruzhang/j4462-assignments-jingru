@@ -58,9 +58,17 @@ def education_bills_mo_senate_2016():
     data = json.loads(response_data)
 
     for item in data:
+    	bill_id = item['bill_id']
+    	
+    	detail_url = 'http://openstates.org/api/v1/bills/mo/2016/' + bill_id
+    	
+    	request = requests.get(detail_url)
+    	
+    	detail_data = json.loads(request.content)
+    	
         print 'Bill title: "{}"'.format(item['title'])
-        print 'Bill updated at: {}'.format(item['updated_at'])
         print 'Bill id: {}'.format(item['bill_id'])
+        print 'Bill last action: {}'.format(detail_data["actions"][-1]["action"])
         print "=" * len(item['bill_id'])
     print "There are {} education bills introduced in 2016 in Missouri Senate.".format(len(data))
 
